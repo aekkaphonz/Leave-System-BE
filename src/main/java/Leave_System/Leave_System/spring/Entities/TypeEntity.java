@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LeaveTypeEntity {
+public class TypeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id" ,nullable = false, updatable = false)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "leave_type_name",length = 50)

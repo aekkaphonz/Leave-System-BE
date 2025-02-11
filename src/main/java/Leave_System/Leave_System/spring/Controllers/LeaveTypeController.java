@@ -1,6 +1,6 @@
 package Leave_System.Leave_System.spring.Controllers;
 
-import Leave_System.Leave_System.spring.Entities.LeaveTypeEntity;
+import Leave_System.Leave_System.spring.Entities.TypeEntity;
 import Leave_System.Leave_System.spring.Repositories.LeaveTypeRepository;
 import Leave_System.Leave_System.spring.Services.LeaveTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,8 @@ import java.util.List;
 @RequestMapping("/api")
 public class LeaveTypeController {
 
-    private LeaveTypeService leaveTypeService;
-    private LeaveTypeRepository leaveTypeRepository;
+    private final LeaveTypeService leaveTypeService;
+    private final LeaveTypeRepository leaveTypeRepository;
 
     @Autowired
     public LeaveTypeController(LeaveTypeService leaveTypeService, LeaveTypeRepository leaveTypeRepository) {
@@ -22,13 +22,13 @@ public class LeaveTypeController {
     }
 
 
-    @PostMapping("/leave-requests")
-    public LeaveTypeEntity addLeaveType(@RequestBody LeaveTypeEntity leaveTypeEntity) {
-        return leaveTypeRepository.save(leaveTypeEntity);
+    @PostMapping("/leave-tpye")
+    public TypeEntity addLeaveType(@RequestBody TypeEntity typeEntity) {
+        return leaveTypeRepository.save(typeEntity);
     }
 
-    @GetMapping("leave-requests")
-    public List<LeaveTypeEntity> findAll() {
-        return (List<LeaveTypeEntity>) leaveTypeRepository.findAll();
+    @GetMapping("leave-tpye")
+    public List<TypeEntity> findAll() {
+        return (List<TypeEntity>) leaveTypeRepository.findAll();
     }
 }

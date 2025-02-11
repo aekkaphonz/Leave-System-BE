@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS leave_requests(
     leave_type_id INT NOT NULL,
     start_date DATE,
     end_date DATE,
-    status VARCHAR(50) NOT NULL CHECK (status IN ('PENDING', 'APPROVED', 'REJECTED')),
+    status VARCHAR NOT NULL CHECK (status IN ('PENDING', 'APPROVED', 'REJECTED')),
     reason VARCHAR(250),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (leave_type_id) REFERENCES leave_types(id) ON DELETE CASCADE
