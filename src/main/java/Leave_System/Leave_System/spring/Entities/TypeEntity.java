@@ -17,8 +17,9 @@ public class TypeEntity {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "leave_type_name",length = 50)
-    private String leaveTypeName;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "leave_type_name")
+    private LeaveTypesEnum leaveTypeName;
 
     @Column(name = "description")
     private String description;

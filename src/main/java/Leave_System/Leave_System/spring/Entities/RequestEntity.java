@@ -35,7 +35,7 @@ public class RequestEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private RequestStatus status;
+    private RequestStatus status = RequestStatus.PENDING;
 
     @Column(name = "reason")
     private String reason;

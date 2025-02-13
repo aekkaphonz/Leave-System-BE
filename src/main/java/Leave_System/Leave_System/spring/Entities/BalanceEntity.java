@@ -1,7 +1,7 @@
 package Leave_System.Leave_System.spring.Entities;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +23,7 @@ public class BalanceEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity userId;
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "leave_type_id")

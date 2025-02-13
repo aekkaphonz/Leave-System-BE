@@ -58,7 +58,7 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- PostgreSQL Dependency (ใช้แค่ตัวนี้) -->
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
