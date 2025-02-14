@@ -19,6 +19,7 @@ mvn spring-boot:run
 ```
 2.เปิดเบราว์เซอร์และไปที่:
 `http://localhost:8080`
+
 3.เปิด Swagger
 `http://localhost:8080/swagger-ui/index.html`
 
