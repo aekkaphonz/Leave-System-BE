@@ -5,6 +5,7 @@ import Leave_System.Leave_System.spring.Repositories.LeaveTypeRepository;
 import Leave_System.Leave_System.spring.Repositories.UserRepository;
 import Leave_System.Leave_System.spring.Services.LeaveRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -29,8 +30,26 @@ public class LeaveRequestController {
      private LeaveTypeRepository leaveTypeRepository;
 
     @PostMapping("/leave-requests")
-    public RequestEntity createRequest(@RequestBody RequestEntity requestEntity) {
-        return leaveRequestService.createRequest(requestEntity);
+    public ResponseEntity<?> createRequest(@RequestBody RequestEntity requestEntity) {
+        if (requestEntity == null || requestEntity.getUser() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                    "responseStatus", 400,
+                    "responseMessage", "Request or User cannot be null"
+            ));
+        }
+
+        try {
+            leaveRequestService.createRequest(requestEntity);
+            return ResponseEntity.ok(Map.of(
+                    "responseStatus", 200,
+                    "responseMessage", "ส่งข้อมูลแบบฟอร์มขอลางานเรียบร้อย"
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                    "responseStatus", 500,
+                    "responseMessage", "เกิดข้อผิดพลาดในระบบ"
+            ));
+        }
     }
 
     @GetMapping("/leave-requests")
