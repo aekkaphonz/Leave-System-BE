@@ -9,7 +9,7 @@
 
 1. **โคลนโปรเจกต์ไปยังเครื่องของคุณ**:
 ```bash
-   git clone https://github.com/aekkaphonz/Leave-System.spring.git
+git clone https://github.com/aekkaphonz/Leave-System.spring.git
 ```
 
 ## การรันแอปพลิเคชัน
