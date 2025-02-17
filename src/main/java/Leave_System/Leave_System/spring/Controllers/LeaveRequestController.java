@@ -32,33 +32,6 @@ public class LeaveRequestController {
      private LeaveTypeRepository leaveTypeRepository;
      private  RequestDTO requestDTO;
 
-//    @PostMapping("/leave-requests")
-//    public ResponseEntity<?> createRequest(@RequestBody RequestEntity requestEntity) {
-//        if (requestEntity == null) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-//                    "responseStatus", 400,
-//                    "responseMessage", "Request cannot be null"
-//            ));
-//        }
-//
-//        try {
-//            leaveRequestService.createRequest(requestEntity);
-//            return ResponseEntity.ok(Map.of(
-//                    "responseStatus", 200,
-//                    "responseMessage", "ส่งข้อมูลแบบฟอร์มขอลางานเรียบร้อย"
-//            ));
-//        } catch (IllegalArgumentException e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-//                    "responseStatus", 400,
-//                    "responseMessage", e.getMessage()
-//            ));
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
-//                    "responseStatus", 500,
-//                    "responseMessage", "เกิดข้อผิดพลาดในระบบ"
-//            ));
-//        }
-//    }
 
 
 
