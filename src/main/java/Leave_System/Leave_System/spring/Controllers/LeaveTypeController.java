@@ -27,7 +27,7 @@ public class LeaveTypeController {
         return leaveTypeRepository.save(typeEntity);
     }
 
-    @GetMapping("leave-tpye")
+    @GetMapping("leave-type")
     public List<TypeEntity> findAll() {
         return (List<TypeEntity>) leaveTypeRepository.findAll();
     }

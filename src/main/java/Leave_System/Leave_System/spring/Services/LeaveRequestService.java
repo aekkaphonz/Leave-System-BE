@@ -1,22 +1,30 @@
 package Leave_System.Leave_System.spring.Services;
 
+import Leave_System.Leave_System.spring.DTO.RequestDTO;
 import Leave_System.Leave_System.spring.Entities.RequestEntity;
 import Leave_System.Leave_System.spring.Entities.RequestStatus;
+import Leave_System.Leave_System.spring.Entities.TypeEntity;
+import Leave_System.Leave_System.spring.Entities.UserEntity;
 import Leave_System.Leave_System.spring.Repositories.LeaveRequestRepository;
-import jakarta.transaction.Transactional;
+import Leave_System.Leave_System.spring.Repositories.LeaveTypeRepository;
+import Leave_System.Leave_System.spring.Repositories.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class LeaveRequestService {
 
     @Autowired
     private LeaveRequestRepository leaveRequestRepository;
+    private UserRepository userRepository;
+    private LeaveTypeRepository leaveTypeRepository;
 
 
     public RequestEntity createRequest(RequestEntity requestEntity) {
@@ -46,6 +54,10 @@ public class LeaveRequestService {
             throw new RuntimeException("Error while saving request entity", e);
         }
     }
+
+
+
+
 
 
 
