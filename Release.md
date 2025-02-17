@@ -1,4 +1,4 @@
-# Replease
+# Release Version 1.0
 
 ## ส่วนที่ยังทำไม่เสร็จ
 - ส่วน Request API คิดว่ายังมีช่องโหว่อยู่ครับ
