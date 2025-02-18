@@ -1,10 +1,8 @@
 package Leave_System.Leave_System.spring.Services;
 
-import Leave_System.Leave_System.spring.DTO.RequestDTO;
+
 import Leave_System.Leave_System.spring.Entities.RequestEntity;
 import Leave_System.Leave_System.spring.Entities.RequestStatus;
-import Leave_System.Leave_System.spring.Entities.TypeEntity;
-import Leave_System.Leave_System.spring.Entities.UserEntity;
 import Leave_System.Leave_System.spring.Repositories.LeaveRequestRepository;
 import Leave_System.Leave_System.spring.Repositories.LeaveTypeRepository;
 import Leave_System.Leave_System.spring.Repositories.UserRepository;
@@ -55,12 +53,6 @@ public class LeaveRequestService {
         }
     }
 
-
-
-
-
-
-
     public List<RequestEntity> findAll() {
         return leaveRequestRepository.findAll();
     }
@@ -84,8 +76,5 @@ public class LeaveRequestService {
 
         return leaveRequestRepository.save(leaveRequest);
     }
-
-
-
 
 }

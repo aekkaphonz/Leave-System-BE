@@ -17,8 +17,25 @@ public class UserService {
 
 
     public UserEntity createUser(UserEntity userEntity) {
-        return userRepository.save(userEntity);
+        try {
+            if (userEntity == null) {
+                throw new IllegalArgumentException("User entity cannot be null");
+            }
+            if (userEntity.getUsername() == null || userEntity.getUsername().trim().isEmpty()) {
+                throw new IllegalArgumentException("Username cannot be null or empty");
+            }
+            if (userEntity.getEmail() == null || userEntity.getEmail().trim().isEmpty()) {
+                throw new IllegalArgumentException("Email cannot be null or empty");
+            }
+            if (userEntity.getDepartment() == null || userEntity.getDepartment().trim().isEmpty()) {
+                throw new IllegalArgumentException("Department cannot be null or empty");
+            }
+
+            return userRepository.save(userEntity);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while saving user entity", e);
         }
+    }
 
 
     }

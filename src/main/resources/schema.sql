@@ -2,9 +2,7 @@ CREATE TABLE IF NOT EXISTS users(
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
     email VARCHAR(50) UNIQUE,
---     role VARCHAR(50) NOT NULL CHECK (role IN ('USER', 'ADMIN')),
-    department VARCHAR(100)
-
+    department VARCHAR(100) NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS leave_types(

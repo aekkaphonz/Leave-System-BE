@@ -23,9 +23,6 @@ public class UserEntity {
     @Column(name = "email" ,length = 50)
     private String email;
 
-//    @Column(name = "role")
-//    private String role;
-
     @Column(name = "department")
     private String department;
 }
