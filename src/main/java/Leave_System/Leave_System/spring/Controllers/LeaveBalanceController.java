@@ -27,7 +27,7 @@ public class LeaveBalanceController {
         this.leaveBalanceRepository = leaveBalanceRepository;
     }
 
-    @PostMapping("leave-balance")
+    @PostMapping("/leave-balance")
     public ResponseEntity<?> createBalance(@RequestBody BalanceEntity balanceEntity) {
         if (balanceEntity == null || balanceEntity.getUser() ==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
@@ -51,7 +51,7 @@ public class LeaveBalanceController {
     }
 
 
-    @GetMapping("leave-balance")
+    @GetMapping("/leave-balance")
     public List<BalanceEntity> findAll() {
         return (List<BalanceEntity>)leaveBalanceRepository.findAll();
     }
