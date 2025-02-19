@@ -89,6 +89,28 @@ class LeaveRequestServiceTest {
     }
 
     @Test
+    void createRequest_NullStartDateOnly_ShouldThrowException() {
+        RequestEntity request = createValidRequest();
+        request.setStartDate(null);
+
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> leaveRequestService.createRequest(request));
+        assertEquals("StartDate and EndDate cannot be null", exception.getMessage());
+        verify(leaveRequestRepository, never()).save(any());
+    }
+
+    @Test
+    void createRequest_NullEndDateOnly_ShouldThrowException() {
+        RequestEntity request = createValidRequest();
+        request.setEndDate(null);
+
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> leaveRequestService.createRequest(request));
+        assertEquals("StartDate and EndDate cannot be null", exception.getMessage());
+        verify(leaveRequestRepository, never()).save(any());
+    }
+
+    @Test
     void createRequest_EndDateBeforeStartDate_ShouldThrowException() {
 
         RequestEntity request = createValidRequest();
@@ -99,6 +121,23 @@ class LeaveRequestServiceTest {
                 () -> leaveRequestService.createRequest(request));
         assertEquals("EndDate cannot be before StartDate", exception.getMessage());
         verify(leaveRequestRepository, never()).save(any());
+    }
+
+    @Test
+    void createRequest_SameDayLeave_ShouldCreateSuccessfully() {
+        RequestEntity request = createValidRequest();
+        Date today = new Date();
+        request.setStartDate(today);
+        request.setEndDate(today);
+
+        when(leaveRequestRepository.save(any(RequestEntity.class))).thenReturn(request);
+
+        RequestEntity result = leaveRequestService.createRequest(request);
+
+        assertNotNull(result);
+        assertEquals(today, result.getStartDate());
+        assertEquals(today, result.getEndDate());
+        verify(leaveRequestRepository).save(any(RequestEntity.class));
     }
 
     @Test

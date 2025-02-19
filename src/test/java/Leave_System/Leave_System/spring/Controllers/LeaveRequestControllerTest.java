@@ -81,6 +81,87 @@ class LeaveRequestControllerTest {
     }
 
     @Test
+    void createRequest_WithValidData_AndServiceThrowsIllegalArgumentException_ShouldReturnBadRequest() {
+        RequestEntity requestEntity = new RequestEntity();
+        UserEntity user = new UserEntity();
+        requestEntity.setUser(user);
+
+        when(leaveRequestService.createRequest(any(RequestEntity.class)))
+            .thenThrow(new IllegalArgumentException("Invalid request data"));
+
+        ResponseEntity<?> response = leaveRequestController.createRequest(requestEntity);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        @SuppressWarnings("unchecked")
+        Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
+        assertEquals(400, responseBody.get("responseStatus"));
+        assertTrue(((String) responseBody.get("responseMessage")).contains("Invalid request data"));
+    }
+
+    @Test
+    void createRequest_WithValidData_AndServiceSucceeds_ShouldReturnCreated() {
+        RequestEntity requestEntity = new RequestEntity();
+        UserEntity user = new UserEntity();
+        requestEntity.setUser(user);
+        
+        when(leaveRequestService.createRequest(any(RequestEntity.class))).thenReturn(requestEntity);
+
+        ResponseEntity<?> response = leaveRequestController.createRequest(requestEntity);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        @SuppressWarnings("unchecked")
+        Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
+        assertEquals(200, responseBody.get("responseStatus"));
+        assertEquals("ส่งข้อมูลแบบฟอร์มขอลางานเรียบร้อย", responseBody.get("responseMessage"));
+    }
+
+    @Test
+    void createRequest_WithNullUser_ShouldReturnBadRequest() {
+        RequestEntity requestEntity = new RequestEntity();
+      
+
+        ResponseEntity<?> response = leaveRequestController.createRequest(requestEntity);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        @SuppressWarnings("unchecked")
+        Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
+        assertEquals(400, responseBody.get("responseStatus"));
+        assertEquals("แบบฟอร์มขอลางานไม่สามารถเป็นค่าว่างได้", responseBody.get("responseMessage"));
+    }
+
+    @Test
+    void createRequest_WithEmptyUser_ShouldReturnBadRequest() {
+        RequestEntity requestEntity = new RequestEntity();
+        requestEntity.setUser(null); 
+        ResponseEntity<?> response = leaveRequestController.createRequest(requestEntity);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        @SuppressWarnings("unchecked")
+        Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
+        assertEquals(400, responseBody.get("responseStatus"));
+        assertEquals("แบบฟอร์มขอลางานไม่สามารถเป็นค่าว่างได้", responseBody.get("responseMessage"));
+    }
+
+    @Test
+    void createRequest_WhenServiceThrowsIllegalArgumentException_ShouldReturnBadRequestWithMessage() {
+        RequestEntity requestEntity = new RequestEntity();
+        UserEntity user = new UserEntity();
+        requestEntity.setUser(user);
+
+        String errorMessage = "ข้อมูลการลาไม่ถูกต้อง";
+        when(leaveRequestService.createRequest(any(RequestEntity.class)))
+            .thenThrow(new IllegalArgumentException(errorMessage));
+
+        ResponseEntity<?> response = leaveRequestController.createRequest(requestEntity);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        @SuppressWarnings("unchecked")
+        Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
+        assertEquals(400, responseBody.get("responseStatus"));
+        assertEquals(errorMessage, responseBody.get("responseMessage"));
+    }
+
+    @Test
     void findAll_ShouldReturnAllRequests() {
 
         List<RequestEntity> requests = Arrays.asList(

@@ -43,6 +43,10 @@ public class LeaveRequestController {
             return ResponseEntity.ok(Map.of(
                     "responseStatus", 200,
                     "responseMessage", "ส่งข้อมูลแบบฟอร์มขอลางานเรียบร้อย"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                    "responseStatus", 400,
+                    "responseMessage", e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
                     "responseStatus", 500,

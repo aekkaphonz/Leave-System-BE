@@ -92,6 +92,78 @@ class UserServiceTest {
     }
 
     @Test
+    void createUser_NullUsername_ShouldThrowException() {
+        UserEntity user = new UserEntity();
+        user.setUsername(null);
+        user.setEmail("test@example.com");
+        user.setDepartment("IT");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(user);
+        });
+    }
+
+    @Test
+    void createUser_WhitespaceUsername_ShouldThrowException() {
+        UserEntity user = new UserEntity();
+        user.setUsername("   ");
+        user.setEmail("test@example.com");
+        user.setDepartment("IT");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(user);
+        });
+    }
+
+    @Test
+    void createUser_NullEmail_ShouldThrowException() {
+        UserEntity user = new UserEntity();
+        user.setUsername("testuser");
+        user.setEmail(null);
+        user.setDepartment("IT");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(user);
+        });
+    }
+
+    @Test
+    void createUser_WhitespaceEmail_ShouldThrowException() {
+        UserEntity user = new UserEntity();
+        user.setUsername("testuser");
+        user.setEmail("   ");
+        user.setDepartment("IT");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(user);
+        });
+    }
+
+    @Test
+    void createUser_NullDepartment_ShouldThrowException() {
+        UserEntity user = new UserEntity();
+        user.setUsername("testuser");
+        user.setEmail("test@example.com");
+        user.setDepartment(null);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(user);
+        });
+    }
+
+    @Test
+    void createUser_WhitespaceDepartment_ShouldThrowException() {
+        UserEntity user = new UserEntity();
+        user.setUsername("testuser");
+        user.setEmail("test@example.com");
+        user.setDepartment("   ");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            userService.createUser(user);
+        });
+    }
+
+    @Test
     void createUser_RepositoryException_ShouldThrowRuntimeException() {
 
         UserEntity user = new UserEntity();
