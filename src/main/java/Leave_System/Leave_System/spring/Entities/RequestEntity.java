@@ -20,11 +20,11 @@ public class RequestEntity {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "leave_type_id" ,nullable = false)
+    @JoinColumn(name = "leave_type_id", nullable = false)
     private TypeEntity leaveType;
 
     @Column(name = "start_date")

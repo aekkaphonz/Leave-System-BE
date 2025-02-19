@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
+
 @Service
 public class LeaveRequestService {
 
@@ -68,8 +69,8 @@ public class LeaveRequestService {
         try {
             return leaveRequestRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Leave request not found"));
-        } catch (Exception e) {
-            if (e instanceof RuntimeException && e.getMessage().equals("Leave request not found")) {
+        } catch (RuntimeException e) {
+            if (e.getMessage().equals("Leave request not found")) {
                 throw e;
             }
             throw new RuntimeException("Error while finding leave request", e);
@@ -77,21 +78,23 @@ public class LeaveRequestService {
     }
 
     public RequestEntity updateLeaveStatus(int id, String status) {
+        RequestEntity leaveRequest;
         try {
-            RequestEntity leaveRequest = leaveRequestRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Leave request not found with id: " + id));
+            leaveRequest = findById(id);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Error while finding leave request", e);
+        }
 
-            RequestStatus newStatus;
-            try {
-                newStatus = RequestStatus.valueOf(status.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Invalid status: " + status);
-            }
-
-            leaveRequest.setStatus(newStatus);
-            return leaveRequestRepository.save(leaveRequest);
+        RequestStatus newStatus;
+        try {
+            newStatus = RequestStatus.valueOf(status.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw e;
+            throw new IllegalArgumentException("Invalid status: " + status);
+        }
+
+        leaveRequest.setStatus(newStatus);
+        try {
+            return leaveRequestRepository.save(leaveRequest);
         } catch (Exception e) {
             throw new RuntimeException("Error while updating leave status", e);
         }

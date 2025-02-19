@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +25,25 @@ public class LeaveTypeController {
         this.leaveTypeRepository = leaveTypeRepository;
     }
 
+    @GetMapping("/leave-type")
+    public ResponseEntity<?> findAll() {
+        try {
+            List<TypeEntity> types = leaveTypeService.findAll();
+            Map<String, Object> response = new HashMap<>();
+            response.put("responseStatus", 200);
+            response.put("responseMessage", "ดึงข้อมูลประเภทการลาสำเร็จ");
+            response.put("data", types);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of(
+                            "responseStatus", 500,
+                            "responseMessage", "เกิดข้อผิดพลาดในการดึงข้อมูลประเภทการลา"
+                    ));
+        }
+    }
 
-    @PostMapping("/leave-tpye")
+    @PostMapping("/leave-type")
     public ResponseEntity<?> createLeaveType(@RequestBody TypeEntity typeEntity) {
         if (typeEntity == null || typeEntity.getLeaveTypeName() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
@@ -33,23 +51,17 @@ public class LeaveTypeController {
                     "responseMessage", typeEntity == null ? "ข้อมูลประเภทการลาไม่ถูกต้อง" : "กรุณากรอกประเภทการลา"
             ));
         }
-        try{
+        try {
             leaveTypeService.createLeave(typeEntity);
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                    "responseStatus",200,
-                    "responseMessage","สร้างประเภทการลาสำเร็จ"
+                    "responseStatus", 200,
+                    "responseMessage", "สร้างประเภทการลาสำเร็จ"
             ));
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
-                    "responseStatus",500,
-                    "responseMessage","เกิดข้อผิดพลาดในระบบ"
+                    "responseStatus", 500,
+                    "responseMessage", "เกิดข้อผิดพลาดในการสร้างประเภทการลา"
             ));
         }
-    }
-
-
-    @GetMapping("leave-type")
-    public List<TypeEntity> findAll() {
-        return (List<TypeEntity>) leaveTypeRepository.findAll();
     }
 }

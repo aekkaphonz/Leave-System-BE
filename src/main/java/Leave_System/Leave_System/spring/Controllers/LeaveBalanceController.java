@@ -3,7 +3,6 @@ package Leave_System.Leave_System.spring.Controllers;
 import Leave_System.Leave_System.spring.Entities.BalanceEntity;
 
 
-import Leave_System.Leave_System.spring.Entities.RequestEntity;
 import Leave_System.Leave_System.spring.Repositories.LeaveBalanceRepository;
 import Leave_System.Leave_System.spring.Services.LeaveBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;

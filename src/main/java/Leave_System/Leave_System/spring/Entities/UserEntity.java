@@ -17,10 +17,10 @@ public class UserEntity {
     @Column(name = "id")
     private int id;
 
-    @Column(name =  "username" ,length = 50)
+    @Column(name = "username", length = 50)
     private String username;
 
-    @Column(name = "email" ,length = 50)
+    @Column(name = "email", length = 50)
     private String email;
 
     @Column(name = "department")
