@@ -24,8 +24,7 @@ public class LeaveTypeController {
         this.leaveTypeRepository = leaveTypeRepository;
     }
 
-
-    @PostMapping("/leave-tpye")
+    @PostMapping("/leave-type")
     public ResponseEntity<?> createLeaveType(@RequestBody TypeEntity typeEntity) {
         if (typeEntity == null || typeEntity.getLeaveTypeName() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
@@ -47,9 +46,8 @@ public class LeaveTypeController {
         }
     }
 
-
-    @GetMapping("leave-type")
+    @GetMapping("/leave-type")
     public List<TypeEntity> findAll() {
-        return (List<TypeEntity>) leaveTypeRepository.findAll();
+        return leaveTypeService.findAll();
     }
 }

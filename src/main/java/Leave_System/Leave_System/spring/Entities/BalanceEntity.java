@@ -18,7 +18,7 @@ public class BalanceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private int id;
 
 
     @ManyToOne

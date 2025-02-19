@@ -15,7 +15,7 @@ public class TypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private int id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "leave_type_name")
