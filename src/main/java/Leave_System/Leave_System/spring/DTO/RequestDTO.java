@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,4 +16,3 @@ public class RequestDTO {
     private String endDate;
     private String reason;
 }
-

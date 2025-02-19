@@ -25,14 +25,12 @@ class LeaveBalanceServiceTest {
 
     @Test
     void createBalance_ValidBalance_ShouldCreateSuccessfully() {
-       
+
         BalanceEntity balance = createValidBalance();
         when(leaveBalanceRepository.save(any(BalanceEntity.class))).thenReturn(balance);
 
-      
         BalanceEntity result = leaveBalanceService.createBalance(balance);
 
-        
         assertNotNull(result);
         assertEquals(10, result.getRemainingDays());
         assertEquals(2025, result.getLeaveYear());
@@ -41,7 +39,7 @@ class LeaveBalanceServiceTest {
 
     @Test
     void createBalance_NullBalance_ShouldThrowException() {
-       
+
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> leaveBalanceService.createBalance(null));
         assertEquals("Balance cannot be null", exception.getMessage());
@@ -50,11 +48,10 @@ class LeaveBalanceServiceTest {
 
     @Test
     void createBalance_NullUser_ShouldThrowException() {
-        
+
         BalanceEntity balance = createValidBalance();
         balance.setUser(null);
 
-       
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> leaveBalanceService.createBalance(balance));
         assertEquals("User cannot be null", exception.getMessage());
@@ -63,11 +60,10 @@ class LeaveBalanceServiceTest {
 
     @Test
     void createBalance_NullLeaveType_ShouldThrowException() {
-     
+
         BalanceEntity balance = createValidBalance();
         balance.setLeaveType(null);
 
-      
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> leaveBalanceService.createBalance(balance));
         assertEquals("LeaveType cannot be null", exception.getMessage());
@@ -76,11 +72,10 @@ class LeaveBalanceServiceTest {
 
     @Test
     void createBalance_ZeroLeaveYear_ShouldThrowException() {
-        
+
         BalanceEntity balance = createValidBalance();
         balance.setLeaveYear(0);
 
-      
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> leaveBalanceService.createBalance(balance));
         assertEquals("LeaveYear cannot be zero", exception.getMessage());
@@ -89,11 +84,10 @@ class LeaveBalanceServiceTest {
 
     @Test
     void createBalance_ZeroRemainingDays_ShouldThrowException() {
-       
+
         BalanceEntity balance = createValidBalance();
         balance.setRemainingDays(0);
 
-      
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> leaveBalanceService.createBalance(balance));
         assertEquals("RemainingDays cannot be zero", exception.getMessage());
@@ -102,11 +96,10 @@ class LeaveBalanceServiceTest {
 
     @Test
     void createBalance_RepositoryException_ShouldThrowRuntimeException() {
-       
+
         BalanceEntity balance = createValidBalance();
         when(leaveBalanceRepository.save(any())).thenThrow(new RuntimeException("Database error"));
 
-       
         Exception exception = assertThrows(RuntimeException.class,
                 () -> leaveBalanceService.createBalance(balance));
         assertTrue(exception.getMessage().contains("Error creating balance"));

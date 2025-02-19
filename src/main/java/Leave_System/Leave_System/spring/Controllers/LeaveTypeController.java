@@ -38,8 +38,7 @@ public class LeaveTypeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of(
                             "responseStatus", 500,
-                            "responseMessage", "เกิดข้อผิดพลาดในการดึงข้อมูลประเภทการลา"
-                    ));
+                            "responseMessage", "เกิดข้อผิดพลาดในการดึงข้อมูลประเภทการลา"));
         }
     }
 
@@ -48,20 +47,17 @@ public class LeaveTypeController {
         if (typeEntity == null || typeEntity.getLeaveTypeName() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
                     "responseStatus", 400,
-                    "responseMessage", typeEntity == null ? "ข้อมูลประเภทการลาไม่ถูกต้อง" : "กรุณากรอกประเภทการลา"
-            ));
+                    "responseMessage", typeEntity == null ? "ข้อมูลประเภทการลาไม่ถูกต้อง" : "กรุณากรอกประเภทการลา"));
         }
         try {
             leaveTypeService.createLeave(typeEntity);
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
                     "responseStatus", 200,
-                    "responseMessage", "สร้างประเภทการลาสำเร็จ"
-            ));
+                    "responseMessage", "สร้างประเภทการลาสำเร็จ"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
                     "responseStatus", 500,
-                    "responseMessage", "เกิดข้อผิดพลาดในการสร้างประเภทการลา"
-            ));
+                    "responseMessage", "เกิดข้อผิดพลาดในการสร้างประเภทการลา"));
         }
     }
 }

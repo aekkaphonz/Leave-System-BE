@@ -14,7 +14,6 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("Leave System API")
                         .version("1.0")
-                        .description("API documentation for Leave System application.")
-                );
+                        .description("API documentation for Leave System application."));
     }
 }

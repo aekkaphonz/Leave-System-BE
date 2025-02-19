@@ -33,17 +33,15 @@ class LeaveRequestControllerTest {
 
     @Test
     void createRequest_WithValidData_ShouldReturnSuccess() {
-        // Arrange
+
         RequestEntity requestEntity = new RequestEntity();
         UserEntity user = new UserEntity();
         requestEntity.setUser(user);
 
         when(leaveRequestService.createRequest(any(RequestEntity.class))).thenReturn(requestEntity);
 
-        // Act
         ResponseEntity<?> response = leaveRequestController.createRequest(requestEntity);
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
@@ -53,10 +51,9 @@ class LeaveRequestControllerTest {
 
     @Test
     void createRequest_WithNullRequest_ShouldReturnBadRequest() {
-        // Act
+
         ResponseEntity<?> response = leaveRequestController.createRequest(null);
 
-        // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
@@ -66,17 +63,16 @@ class LeaveRequestControllerTest {
 
     @Test
     void createRequest_WhenServiceThrowsException_ShouldReturnInternalServerError() {
-        // Arrange
+
         RequestEntity requestEntity = new RequestEntity();
         UserEntity user = new UserEntity();
         requestEntity.setUser(user);
 
-        doThrow(new RuntimeException("Database error")).when(leaveRequestService).createRequest(any(RequestEntity.class));
+        doThrow(new RuntimeException("Database error")).when(leaveRequestService)
+                .createRequest(any(RequestEntity.class));
 
-        // Act
         ResponseEntity<?> response = leaveRequestController.createRequest(requestEntity);
 
-        // Assert
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
@@ -86,60 +82,51 @@ class LeaveRequestControllerTest {
 
     @Test
     void findAll_ShouldReturnAllRequests() {
-        // Arrange
+
         List<RequestEntity> requests = Arrays.asList(
-            new RequestEntity(),
-            new RequestEntity()
-        );
+                new RequestEntity(),
+                new RequestEntity());
         when(leaveRequestService.findAll()).thenReturn(requests);
 
-        // Act
         List<RequestEntity> result = leaveRequestController.findAll();
 
-        // Assert
         assertEquals(2, result.size());
     }
 
     @Test
     void findByRequestId_WithValidId_ShouldReturnRequest() {
-        // Arrange
+
         RequestEntity request = new RequestEntity();
         when(leaveRequestService.findById(1)).thenReturn(request);
 
-        // Act
         ResponseEntity<RequestEntity> response = leaveRequestController.findByRequestId(1);
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
     }
 
     @Test
     void updateStatus_WithValidData_ShouldReturnUpdatedRequest() {
-        // Arrange
+
         RequestEntity updatedRequest = new RequestEntity();
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("status", "APPROVED");
-        
+
         when(leaveRequestService.updateLeaveStatus(eq(1), eq("APPROVED"))).thenReturn(updatedRequest);
 
-        // Act
         ResponseEntity<RequestEntity> response = leaveRequestController.updateStatus(1, requestBody);
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
     }
 
     @Test
     void updateStatus_WithNullStatus_ShouldReturnBadRequest() {
-        // Arrange
+
         Map<String, String> requestBody = new HashMap<>();
-        
-        // Act
+
         ResponseEntity<RequestEntity> response = leaveRequestController.updateStatus(1, requestBody);
 
-        // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
     }

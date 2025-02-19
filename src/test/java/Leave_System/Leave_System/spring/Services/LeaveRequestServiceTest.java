@@ -31,14 +31,12 @@ class LeaveRequestServiceTest {
 
     @Test
     void createRequest_ValidRequest_ShouldCreateSuccessfully() {
-      
+
         RequestEntity request = createValidRequest();
         when(leaveRequestRepository.save(any(RequestEntity.class))).thenReturn(request);
 
-       
         RequestEntity result = leaveRequestService.createRequest(request);
 
-        
         assertNotNull(result);
         assertEquals(RequestStatus.PENDING, result.getStatus());
         verify(leaveRequestRepository).save(any(RequestEntity.class));
@@ -46,7 +44,7 @@ class LeaveRequestServiceTest {
 
     @Test
     void createRequest_NullRequest_ShouldThrowException() {
-       
+
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> leaveRequestService.createRequest(null));
         assertEquals("Request cannot be null", exception.getMessage());
@@ -55,11 +53,10 @@ class LeaveRequestServiceTest {
 
     @Test
     void createRequest_NullUser_ShouldThrowException() {
-       
+
         RequestEntity request = createValidRequest();
         request.setUser(null);
 
-     
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> leaveRequestService.createRequest(request));
         assertEquals("User cannot be null", exception.getMessage());
@@ -68,7 +65,7 @@ class LeaveRequestServiceTest {
 
     @Test
     void createRequest_NullLeaveType_ShouldThrowException() {
- 
+
         RequestEntity request = createValidRequest();
         request.setLeaveType(null);
 
@@ -93,12 +90,11 @@ class LeaveRequestServiceTest {
 
     @Test
     void createRequest_EndDateBeforeStartDate_ShouldThrowException() {
-       
-        RequestEntity request = createValidRequest();
-        request.setStartDate(new Date(System.currentTimeMillis() + 86400000)); 
-        request.setEndDate(new Date()); 
 
-     
+        RequestEntity request = createValidRequest();
+        request.setStartDate(new Date(System.currentTimeMillis() + 86400000));
+        request.setEndDate(new Date());
+
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> leaveRequestService.createRequest(request));
         assertEquals("EndDate cannot be before StartDate", exception.getMessage());
@@ -107,11 +103,10 @@ class LeaveRequestServiceTest {
 
     @Test
     void createRequest_RepositoryException_ShouldThrowRuntimeException() {
-    
+
         RequestEntity request = createValidRequest();
         when(leaveRequestRepository.save(any())).thenThrow(new RuntimeException("Database error"));
 
-      
         Exception exception = assertThrows(RuntimeException.class,
                 () -> leaveRequestService.createRequest(request));
         assertTrue(exception.getMessage().contains("Error while creating leave request"));
@@ -120,16 +115,14 @@ class LeaveRequestServiceTest {
 
     @Test
     void findAll_ShouldReturnAllRequests() {
-       
+
         List<RequestEntity> expectedRequests = Arrays.asList(
                 createValidRequest(),
                 createValidRequest());
         when(leaveRequestRepository.findAll()).thenReturn(expectedRequests);
 
-       
         List<RequestEntity> result = leaveRequestService.findAll();
 
-        
         assertNotNull(result);
         assertEquals(2, result.size());
         verify(leaveRequestRepository).findAll();
@@ -137,10 +130,9 @@ class LeaveRequestServiceTest {
 
     @Test
     void findAll_RepositoryException_ShouldThrowRuntimeException() {
-       
+
         when(leaveRequestRepository.findAll()).thenThrow(new RuntimeException("Database error"));
 
-       
         Exception exception = assertThrows(RuntimeException.class,
                 () -> leaveRequestService.findAll());
         assertTrue(exception.getMessage().contains("Error while finding all leave requests"));
@@ -149,24 +141,21 @@ class LeaveRequestServiceTest {
 
     @Test
     void findById_ExistingId_ShouldReturnRequest() {
-        
+
         RequestEntity request = createValidRequest();
         when(leaveRequestRepository.findById((int) 1)).thenReturn(Optional.of(request));
 
-       
         RequestEntity result = leaveRequestService.findById((int) 1);
 
-        
         assertNotNull(result);
         verify(leaveRequestRepository).findById((int) 1);
     }
 
     @Test
     void findById_NonExistingId_ShouldThrowException() {
-        
+
         when(leaveRequestRepository.findById((int) 1)).thenReturn(Optional.empty());
 
-      
         Exception exception = assertThrows(RuntimeException.class,
                 () -> leaveRequestService.findById((int) 1));
         assertEquals("Leave request not found", exception.getMessage());
@@ -175,15 +164,13 @@ class LeaveRequestServiceTest {
 
     @Test
     void createRequest_WithNullStatus_ShouldSetStatusToPending() {
-       
+
         RequestEntity request = createValidRequest();
-        request.setStatus(null); 
+        request.setStatus(null);
         when(leaveRequestRepository.save(any(RequestEntity.class))).thenReturn(request);
 
-        
         RequestEntity result = leaveRequestService.createRequest(request);
 
-        
         assertNotNull(result);
         assertEquals(RequestStatus.PENDING, result.getStatus());
         verify(leaveRequestRepository).save(request);
@@ -191,15 +178,13 @@ class LeaveRequestServiceTest {
 
     @Test
     void createRequest_WithNonNullStatus_ShouldKeepOriginalStatus() {
-        
+
         RequestEntity request = createValidRequest();
-        request.setStatus(RequestStatus.APPROVED); 
+        request.setStatus(RequestStatus.APPROVED);
         when(leaveRequestRepository.save(any(RequestEntity.class))).thenReturn(request);
 
-      
         RequestEntity result = leaveRequestService.createRequest(request);
 
-      
         assertNotNull(result);
         assertEquals(RequestStatus.APPROVED, result.getStatus());
         verify(leaveRequestRepository).save(request);
@@ -207,15 +192,13 @@ class LeaveRequestServiceTest {
 
     @Test
     void updateLeaveStatus_ValidStatus_ShouldUpdateSuccessfully() {
-       
+
         RequestEntity request = createValidRequest();
         when(leaveRequestRepository.findById((int) 1)).thenReturn(Optional.of(request));
         when(leaveRequestRepository.save(any(RequestEntity.class))).thenReturn(request);
 
-        
         RequestEntity result = leaveRequestService.updateLeaveStatus((int) 1, "APPROVED");
 
-        
         assertNotNull(result);
         assertEquals(RequestStatus.APPROVED, result.getStatus());
         verify(leaveRequestRepository).findById((int) 1);
@@ -224,11 +207,10 @@ class LeaveRequestServiceTest {
 
     @Test
     void updateLeaveStatus_InvalidStatus_ShouldThrowException() {
-    
+
         RequestEntity request = createValidRequest();
         when(leaveRequestRepository.findById((int) 1)).thenReturn(Optional.of(request));
 
-      
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> leaveRequestService.updateLeaveStatus((int) 1, "INVALID_STATUS"));
         assertTrue(exception.getMessage().contains("Invalid status"));
@@ -238,10 +220,9 @@ class LeaveRequestServiceTest {
 
     @Test
     void updateLeaveStatus_FindByIdError_ShouldThrowRuntimeException() {
-      
+
         when(leaveRequestRepository.findById(1)).thenThrow(new RuntimeException("Database error"));
 
-    
         Exception exception = assertThrows(RuntimeException.class,
                 () -> leaveRequestService.updateLeaveStatus(1, "APPROVED"));
         assertEquals("Error while finding leave request", exception.getMessage());
@@ -251,12 +232,11 @@ class LeaveRequestServiceTest {
 
     @Test
     void updateLeaveStatus_SaveError_ShouldThrowRuntimeException() {
-     
+
         RequestEntity request = createValidRequest();
         when(leaveRequestRepository.findById(1)).thenReturn(Optional.of(request));
         when(leaveRequestRepository.save(any())).thenThrow(new RuntimeException("Database error"));
 
-      
         Exception exception = assertThrows(RuntimeException.class,
                 () -> leaveRequestService.updateLeaveStatus(1, "APPROVED"));
         assertEquals("Error while updating leave status", exception.getMessage());
@@ -276,7 +256,7 @@ class LeaveRequestServiceTest {
         request.setUser(user);
         request.setLeaveType(leaveType);
         request.setStartDate(new Date());
-        request.setEndDate(new Date(System.currentTimeMillis() + 86400000)); 
+        request.setEndDate(new Date(System.currentTimeMillis() + 86400000));
         return request;
     }
 }

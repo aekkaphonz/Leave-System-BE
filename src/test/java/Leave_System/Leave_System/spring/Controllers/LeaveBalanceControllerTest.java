@@ -42,7 +42,6 @@ class LeaveBalanceControllerTest {
         MockitoAnnotations.openMocks(this);
         leaveBalanceController = new LeaveBalanceController(leaveBalanceService, leaveBalanceRepository);
 
-        // สร้าง sample balance สำหรับใช้ในการทดสอบ
         sampleBalance = new BalanceEntity();
         UserEntity user = new UserEntity();
         user.setId(1);
@@ -53,14 +52,12 @@ class LeaveBalanceControllerTest {
 
     @Test
     void findAll_ShouldReturnAllBalances() {
-        // Arrange
+
         List<BalanceEntity> expectedBalances = Arrays.asList(sampleBalance);
         when(leaveBalanceRepository.findAll()).thenReturn(expectedBalances);
 
-        // Act
         List<BalanceEntity> result = leaveBalanceController.findAll();
 
-        // Assert
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals(sampleBalance.getUser().getId(), result.get(0).getUser().getId());
@@ -70,13 +67,11 @@ class LeaveBalanceControllerTest {
 
     @Test
     void createBalance_WithValidData_ShouldReturnCreated() {
-        // Arrange
+
         when(leaveBalanceService.createBalance(any(BalanceEntity.class))).thenReturn(sampleBalance);
 
-        // Act
         ResponseEntity<?> response = leaveBalanceController.createBalance(sampleBalance);
 
-        // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
@@ -86,10 +81,9 @@ class LeaveBalanceControllerTest {
 
     @Test
     void createBalance_WithNullBalance_ShouldReturnBadRequest() {
-        // Act
+
         ResponseEntity<?> response = leaveBalanceController.createBalance(null);
 
-        // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
@@ -99,13 +93,11 @@ class LeaveBalanceControllerTest {
 
     @Test
     void createBalance_WithNullUser_ShouldReturnBadRequest() {
-        // Arrange
+
         BalanceEntity balanceEntity = new BalanceEntity();
 
-        // Act
         ResponseEntity<?> response = leaveBalanceController.createBalance(balanceEntity);
 
-        // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
@@ -115,13 +107,12 @@ class LeaveBalanceControllerTest {
 
     @Test
     void createBalance_WhenServiceThrowsException_ShouldReturnInternalServerError() {
-        // Arrange
-        doThrow(new RuntimeException("Database error")).when(leaveBalanceService).createBalance(any(BalanceEntity.class));
 
-        // Act
+        doThrow(new RuntimeException("Database error")).when(leaveBalanceService)
+                .createBalance(any(BalanceEntity.class));
+
         ResponseEntity<?> response = leaveBalanceController.createBalance(sampleBalance);
 
-        // Assert
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody();

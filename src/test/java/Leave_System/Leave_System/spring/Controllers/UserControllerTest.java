@@ -35,17 +35,15 @@ class UserControllerTest {
 
     @Test
     void createUser_WithValidData_ShouldReturnCreated() {
-        // Arrange
+
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername("testuser");
         userEntity.setEmail("test@example.com");
 
         when(userService.createUser(any(UserEntity.class))).thenReturn(userEntity);
 
-        // Act
         ResponseEntity<?> response = userController.createUser(userEntity);
 
-        // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
@@ -55,10 +53,9 @@ class UserControllerTest {
 
     @Test
     void createUser_WithNullUser_ShouldReturnBadRequest() {
-        // Act
+
         ResponseEntity<?> response = userController.createUser(null);
 
-        // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
@@ -68,14 +65,12 @@ class UserControllerTest {
 
     @Test
     void createUser_WithNullUsername_ShouldReturnBadRequest() {
-        // Arrange
+
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail("test@example.com");
 
-        // Act
         ResponseEntity<?> response = userController.createUser(userEntity);
 
-        // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
@@ -85,14 +80,12 @@ class UserControllerTest {
 
     @Test
     void createUser_WithNullEmail_ShouldReturnBadRequest() {
-        // Arrange
+
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername("testuser");
 
-        // Act
         ResponseEntity<?> response = userController.createUser(userEntity);
 
-        // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
@@ -102,17 +95,15 @@ class UserControllerTest {
 
     @Test
     void createUser_WhenServiceThrowsException_ShouldReturnInternalServerError() {
-        // Arrange
+
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername("testuser");
         userEntity.setEmail("test@example.com");
 
         doThrow(new RuntimeException("Database error")).when(userService).createUser(any(UserEntity.class));
 
-        // Act
         ResponseEntity<?> response = userController.createUser(userEntity);
 
-        // Assert
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody();

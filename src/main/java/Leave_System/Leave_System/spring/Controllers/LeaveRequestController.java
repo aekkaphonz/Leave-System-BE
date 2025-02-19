@@ -20,39 +20,33 @@ public class LeaveRequestController {
     private final LeaveRequestService leaveRequestService;
     private final RequestEntity requestEntity;
 
-
-
-
     @Autowired
     public LeaveRequestController(LeaveRequestService leaveRequestService) {
         this.leaveRequestService = leaveRequestService;
         this.requestEntity = new RequestEntity();
     }
-     private UserRepository userRepository;
-     private LeaveTypeRepository leaveTypeRepository;
-     private  RequestDTO requestDTO;
 
+    private UserRepository userRepository;
+    private LeaveTypeRepository leaveTypeRepository;
+    private RequestDTO requestDTO;
 
     @PostMapping("/leave-requests")
     public ResponseEntity<?> createRequest(@RequestBody RequestEntity requestEntity) {
         if (requestEntity == null || requestEntity.getUser() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
                     "responseStatus", 400,
-                    "responseMessage", "แบบฟอร์มขอลางานไม่สามารถเป็นค่าว่างได้"
-            ));
+                    "responseMessage", "แบบฟอร์มขอลางานไม่สามารถเป็นค่าว่างได้"));
         }
 
         try {
             leaveRequestService.createRequest(requestEntity);
             return ResponseEntity.ok(Map.of(
                     "responseStatus", 200,
-                    "responseMessage", "ส่งข้อมูลแบบฟอร์มขอลางานเรียบร้อย"
-            ));
+                    "responseMessage", "ส่งข้อมูลแบบฟอร์มขอลางานเรียบร้อย"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
                     "responseStatus", 500,
-                    "responseMessage", "เกิดข้อผิดพลาดในระบบ"
-            ));
+                    "responseMessage", "เกิดข้อผิดพลาดในระบบ"));
         }
     }
 
@@ -67,9 +61,6 @@ public class LeaveRequestController {
         return ResponseEntity.ok(request);
     }
 
-
-
-
     @PutMapping("/leave-requests/{id}")
     public ResponseEntity<RequestEntity> updateStatus(@PathVariable int id, @RequestBody Map<String, String> request) {
         String status = request.get("status");
@@ -81,6 +72,5 @@ public class LeaveRequestController {
         RequestEntity updatedRequest = leaveRequestService.updateLeaveStatus(id, status);
         return ResponseEntity.ok(updatedRequest);
     }
-
 
 }

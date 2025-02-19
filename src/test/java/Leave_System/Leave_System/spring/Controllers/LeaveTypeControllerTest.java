@@ -42,14 +42,12 @@ class LeaveTypeControllerTest {
 
     @Test
     void findAll_ShouldReturnAllLeaveTypes() {
-        // Arrange
+
         List<TypeEntity> expectedTypes = Arrays.asList(sampleType);
         when(leaveTypeService.findAll()).thenReturn(expectedTypes);
 
-        // Act
         ResponseEntity<?> response = leaveTypeController.findAll();
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> body = (Map<String, Object>) response.getBody();
@@ -67,13 +65,11 @@ class LeaveTypeControllerTest {
 
     @Test
     void findAll_WhenServiceThrowsException_ShouldReturnInternalServerError() {
-        // Arrange
+
         when(leaveTypeService.findAll()).thenThrow(new RuntimeException("Database error"));
 
-        // Act
         ResponseEntity<?> response = leaveTypeController.findAll();
 
-        // Assert
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> body = (Map<String, Object>) response.getBody();
@@ -85,13 +81,11 @@ class LeaveTypeControllerTest {
 
     @Test
     void createLeaveType_WithValidData_ShouldReturnCreated() {
-        // Arrange
+
         when(leaveTypeService.createLeave(any(TypeEntity.class))).thenReturn(sampleType);
 
-        // Act
         ResponseEntity<?> response = leaveTypeController.createLeaveType(sampleType);
 
-        // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> body = (Map<String, Object>) response.getBody();
@@ -103,10 +97,9 @@ class LeaveTypeControllerTest {
 
     @Test
     void createLeaveType_WithNullType_ShouldReturnBadRequest() {
-        // Act
+
         ResponseEntity<?> response = leaveTypeController.createLeaveType(null);
 
-        // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> body = (Map<String, Object>) response.getBody();
@@ -118,14 +111,12 @@ class LeaveTypeControllerTest {
 
     @Test
     void createLeaveType_WithNullLeaveTypeName_ShouldReturnBadRequest() {
-        // Arrange
+
         TypeEntity typeWithNullName = new TypeEntity();
         typeWithNullName.setDescription("Test Description");
 
-        // Act
         ResponseEntity<?> response = leaveTypeController.createLeaveType(typeWithNullName);
 
-        // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> body = (Map<String, Object>) response.getBody();
@@ -137,13 +128,11 @@ class LeaveTypeControllerTest {
 
     @Test
     void createLeaveType_WhenServiceThrowsException_ShouldReturnInternalServerError() {
-        // Arrange
+
         when(leaveTypeService.createLeave(any(TypeEntity.class))).thenThrow(new RuntimeException("Database error"));
 
-        // Act
         ResponseEntity<?> response = leaveTypeController.createLeaveType(sampleType);
 
-        // Assert
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         @SuppressWarnings("unchecked")
         Map<String, Object> body = (Map<String, Object>) response.getBody();

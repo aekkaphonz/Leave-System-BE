@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-
 @Service
 public class LeaveRequestService {
 
@@ -23,7 +22,7 @@ public class LeaveRequestService {
 
     public RequestEntity createRequest(RequestEntity requestEntity) {
         validateRequest(requestEntity);
-        
+
         if (requestEntity.getStatus() == null) {
             requestEntity.setStatus(RequestStatus.PENDING);
         }
