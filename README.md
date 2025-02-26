@@ -23,6 +23,15 @@ mvn spring-boot:run
 3.เปิด Swagger
 `http://localhost:8080/swagger-ui/index.html`
 
+## การรันแอปพลิเคชัน
+1.เทสเซิร์ฟเวอร์:
+```bash
+mvn clean test 
+```
+2.เปิดเบราว์เซอร์และไปที่:
+`
+D:/Leave-System.spring/target/site/jacoco/index.html
+`
 ## Doc
 - **Spring Boot Tutorial for Beginners** [Click](https://youtu.be/UgX5lgv4uVM?si=6A4eJb__Ve87L9Xl)
 - **Full Stack Spring Boot 3 API with Angular (ADVANCED)**
